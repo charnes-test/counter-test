@@ -1,0 +1,2 @@
+CREATE TABLE visits (id SERIAL PRIMARY KEY, count INTEGER);
+INSERT INTO visits (count) VALUES (0);

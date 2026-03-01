@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  # Наше приложение
+  app:
+    build: ./app
+    container_name: python_app
+    restart: always
+    environment:
+      - DB_HOST=db
+      - POSTGRES_DB=counter_db
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+    networks:
+      - backend  # Видит базу
+      - frontend # Видит Nginx
+    depends_on:
+      - db
+
+  # База данных
+  db:
+    image: postgres:13-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      - POSTGRES_DB=counter_db
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+    volumes:
+      - db_data:/var/lib/postgresql/data # Сохраняем данные при перезагрузке
+      - ./db_init:/docker-entrypoint-initdb.d # Скрипт инициализации
+    networks:
+      - backend # ТОЛЬКО бэкенд сеть. Снаружи к ней не подключиться.
+
+  # Веб-сервер
+  nginx:
+    image: nginx:alpine
+    container_name: nginx_proxy
+    ports:
+      - "80:80" # Открываем порт 80 наружу
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    networks:
+      - frontend # Видит только приложение, но не базу
+
+# Объявление сетей
+networks:
+  frontend:
+  backend:
+
+# Объявление томов
+volumes:
+  db_data:
