@@ -33,7 +33,7 @@
 
 1.  Клонирование репозитория:
     ```bash
-    git clone https://github.com/ВАШ_НИК/devops-counter-app.git
+    git clone https://github.com/ВАШ_НИК/counter-test.git
     cd devops-counter-app
     ```
 
