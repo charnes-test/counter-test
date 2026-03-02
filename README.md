@@ -33,8 +33,8 @@
 
 1.  Клонирование репозитория:
     ```bash
-    git clone https://github.com/ВАШ_НИК/counter-test.git
-    cd devops-counter-app
+    git clone https://github.com/charnes-test/counter-test.git
+    cd counter-test
     ```
 
 2.  Сборка и запуск контейнеров:
